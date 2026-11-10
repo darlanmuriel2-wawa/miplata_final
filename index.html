@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Plata | Tu banco digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Se ejecuta ANTES de pintar la página para que el tema guardado no "parpadee" -->
+  <script>try{var t=localStorage.getItem('miplata_tema')||'dark';document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+  <div class="utilbar">
+    <div class="contenedor">
+      <span>🔒 Banca digital segura · Proyecto académico</span>
+      <div class="util-acciones">
+        <button class="util-btn" data-fs="-1" aria-label="Reducir tamaño del texto">A−</button>
+        <button class="util-btn" data-fs="1" aria-label="Aumentar tamaño del texto">A+</button>
+        <button class="util-btn" data-tema-toggle aria-label="Cambiar tema">☀️</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="navbar">
+    <div class="contenedor">
+      <a href="index.html" class="logo"><span class="logo-moneda">$</span> Mi Plata</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li class="mega-item">
+          <button class="mega-trigger" aria-expanded="false">Productos ▾</button>
+          <div class="mega-panel">
+            <div>
+              <h4>Cuentas</h4>
+              <a href="#productos">Cuenta de Ahorros</a>
+              <a href="#productos">Cuenta Corriente</a>
+            </div>
+            <div>
+              <h4>Tarjetas</h4>
+              <a href="#productos">Tarjeta de Crédito</a>
+              <a href="#simulador">Simular cuotas</a>
+            </div>
+            <div>
+              <h4>Servicios</h4>
+              <a href="#productos">Transferencias</a>
+              <a href="#ayuda">Preguntas frecuentes</a>
+            </div>
+          </div>
+        </li>
+        <li><a href="#simulador">Simulador</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+        <li><a href="view/auth.html?modo=login">Iniciar Sesión</a></li>
+        <li><a href="view/auth.html?modo=registro" class="btn btn-sm">Registrarse</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ===== Hero: carrusel de 3 slides ===== -->
+  <section class="hero">
+    <div class="contenedor carrusel" id="carrusel">
+      <div class="carrusel-pistas">
+        <article class="slide activo">
+          <div>
+            <span class="eyebrow">Tarjeta de crédito</span>
+            <h1>Compra hoy, <span class="grad-text">paga a tu ritmo</span></h1>
+            <p>Hasta 2 cuotas sin interés y un simulador que te muestra tu pago mensual antes de comprar.</p>
+            <div class="acciones">
+              <a href="view/auth.html?modo=registro" class="btn">Abrir mi cuenta</a>
+              <a href="#simulador" class="btn btn-borde">Simular cuotas</a>
+            </div>
+          </div>
+          <div class="visual">
+            <div class="tarjeta-3d" aria-hidden="true">
+              <div class="fila-t"><b>Mi Plata</b><span>CRÉDITO</span></div>
+              <div class="chip"></div>
+              <div class="numero">•••• •••• •••• 2026</div>
+              <div class="fila-t"><span>TITULAR</span><span>12/30</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide">
+          <div>
+            <span class="eyebrow">Cuenta de ahorros</span>
+            <h1>Tu dinero <span class="grad-text">crece solo</span></h1>
+            <p>Guarda a mediano y largo plazo y recibe un 1.5% de interés mensual aplicado en cada retiro.</p>
+            <div class="acciones">
+              <a href="view/auth.html?modo=registro" class="btn">Empezar a ahorrar</a>
+            </div>
+          </div>
+          <div class="visual">
+            <div class="visual-panel"><div class="gigante">1.5%</div><small>interés mensual</small></div>
+          </div>
+        </article>
+
+        <article class="slide">
+          <div>
+            <span class="eyebrow">Cuenta corriente</span>
+            <h1>Flexibilidad para <span class="grad-text">tu día a día</span></h1>
+            <p>Recibe tu nómina, paga facturas y transfiere sin límites, con un sobregiro de hasta el 20% sobre tu saldo.</p>
+            <div class="acciones">
+              <a href="view/auth.html?modo=registro" class="btn">Quiero mi cuenta</a>
+            </div>
+          </div>
+          <div class="visual">
+            <div class="visual-panel">
+              <div class="gigante">+20%</div><small>de sobregiro disponible</small>
+              <div class="mini-barra"><i></i><i></i></div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="carrusel-control">
+        <button data-dir="-1" aria-label="Anterior">‹</button>
+        <span class="carrusel-cuenta">01 / 03</span>
+        <button data-dir="1" aria-label="Siguiente">›</button>
+        <div class="carrusel-barra"><i></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ¿Qué quieres hacer hoy? ===== -->
+  <section class="seccion-landing" style="padding-top:1rem">
+    <div class="contenedor reveal">
+      <h2>¿Qué quieres hacer hoy?</h2>
+      <p class="subtitulo">Elige tu meta y te llevamos al lugar correcto.</p>
+      <!-- Fotos: guárdalas en la carpeta img/ con estos nombres (o cambia el src).
+           Si una foto no existe, la tarjeta muestra el degradado de fondo. -->
+      <div class="metas">
+        <a class="meta" href="view/auth.html?modo=registro">
+          <img src="img/ahorro.jpg" alt="Persona guardando sus ahorros" loading="lazy" onerror="this.remove()">
+          <span class="meta-flecha" aria-hidden="true">→</span>
+          <div class="meta-texto"><b>Ahorrar</b><small>Abre tu cuenta</small></div>
+        </a>
+        <a class="meta" href="#simulador">
+          <img src="img/cuotas.jpg" alt="Compra con tarjeta de crédito" loading="lazy" onerror="this.remove()">
+          <span class="meta-flecha" aria-hidden="true">→</span>
+          <div class="meta-texto"><b>Comprar a cuotas</b><small>Simula tu pago</small></div>
+        </a>
+        <a class="meta" href="view/auth.html?modo=registro">
+          <img src="img/mover-dinero.jpg" alt="Transferencia de dinero desde el celular" loading="lazy" onerror="this.remove()">
+          <span class="meta-flecha" aria-hidden="true">→</span>
+          <div class="meta-texto"><b>Mover mi dinero</b><small>Transfiere fácil</small></div>
+        </a>
+        <a class="meta" href="view/auth.html?modo=login">
+          <img src="img/ver-saldo.jpg" alt="Consulta de saldo en el banco" loading="lazy" onerror="this.remove()">
+          <span class="meta-flecha" aria-hidden="true">→</span>
+          <div class="meta-texto"><b>Ver mi saldo</b><small>Inicia sesión</small></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Productos con pestañas ===== -->
+  <section class="seccion-landing" id="productos">
+    <div class="contenedor reveal">
+      <h2>Productos pensados para ti</h2>
+      <p class="subtitulo">Al registrarte recibes tus tres productos listos para usar.</p>
+      <div class="pestanas" role="tablist">
+        <button class="tab activo" data-filtro="todos">Destacados</button>
+        <button class="tab" data-filtro="cuentas">Cuentas</button>
+        <button class="tab" data-filtro="tarjetas">Tarjetas</button>
+        <button class="tab" data-filtro="digital">Digital</button>
+      </div>
+      <div class="grid-3">
+        <article class="card producto" data-cat="cuentas">
+          <span class="etiqueta">Cuentas</span>
+          <div class="icono">🐖</div>
+          <h3>Cuenta de Ahorros</h3>
+          <p>Guarda tu dinero a mediano y largo plazo.</p>
+          <ul><li>Consigna y retira cuando quieras</li><li>1.5% de interés mensual</li><li>Sin sobregiros</li></ul>
+        </article>
+        <article class="card producto" data-cat="cuentas">
+          <span class="etiqueta">Cuentas</span>
+          <div class="icono">💼</div>
+          <h3>Cuenta Corriente</h3>
+          <p>Para nómina, facturas y transferencias frecuentes.</p>
+          <ul><li>Sobregiro de hasta 20%</li><li>Sin cobro de intereses</li><li>Transferencias entre productos</li></ul>
+        </article>
+        <article class="card producto" data-cat="tarjetas">
+          <span class="etiqueta">Tarjetas</span>
+          <div class="icono">💳</div>
+          <h3>Tarjeta de Crédito</h3>
+          <p>Compra hoy y paga a cuotas.</p>
+          <ul><li>Hasta 2 cuotas sin interés</li><li>3 a 6 cuotas: 1.9% mensual</li><li>7 o más cuotas: 2.3% mensual</li></ul>
+        </article>
+        <article class="card producto" data-cat="digital">
+          <span class="etiqueta">Digital</span>
+          <div class="icono">🔁</div>
+          <h3>Transferencias</h3>
+          <p>Mueve tu dinero entre tus productos o a otras personas.</p>
+          <ul><li>A cualquier usuario de Mi Plata</li><li>Entre tus propios productos</li><li>Historial siempre a la mano</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Simulador ===== -->
+  <section class="seccion-landing" id="simulador">
+    <div class="contenedor reveal">
+      <h2>Simulador de <span class="grad-text">tarjeta de crédito</span></h2>
+      <p class="subtitulo">Mueve los controles y mira tu pago mensual al instante. Usa la misma fórmula que el banco.</p>
+      <div class="sim">
+        <div class="card">
+          <div class="campo">
+            <label for="simValor">Valor de la compra</label>
+            <div class="valor-out" id="simValorOut"></div>
+            <input id="simValor" type="range" min="100000" max="3000000" step="50000" value="1000000">
+          </div>
+          <div class="campo">
+            <label for="simCuotas">Número de cuotas</label>
+            <div class="valor-out" id="simCuotasOut"></div>
+            <input id="simCuotas" type="range" min="1" max="36" step="1" value="6">
+          </div>
+          <p class="ayuda">≤ 2 cuotas: 0% · 3 a 6: 1.9% · 7 o más: 2.3% mensual</p>
+        </div>
+        <div class="card sim-resultado">
+          <small class="etiqueta">Tu pago mensual</small>
+          <div class="cuota grad-text" id="simCuota"></div>
+          <div class="linea"><span>Tasa</span><b id="simTasa"></b></div>
+          <div class="linea"><span>Total a pagar</span><b id="simTotal"></b></div>
+          <div class="linea"><span>Intereses</span><b id="simInteres"></b></div>
+          <a href="view/auth.html?modo=registro" class="btn" style="margin-top:.8rem;text-align:center">Solicitar mi tarjeta</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Nosotros + cifras ===== -->
+  <section class="seccion-landing" id="nosotros">
+    <div class="contenedor reveal">
+      <h2>Sobre Mi Plata</h2>
+      <p class="subtitulo">Un banco digital que cree que manejar tu dinero debe ser simple, transparente y humano.</p>
+      <div class="grid-3" style="margin-bottom:1.4rem">
+        <div class="card"><h3>Misión</h3><p>Acercar servicios financieros claros y seguros a todas las personas, sin complicaciones.</p></div>
+        <div class="card"><h3>Visión</h3><p>Ser el banco digital preferido de Colombia por su confianza y cercanía.</p></div>
+        <div class="card"><h3>Valores</h3><p>Transparencia, seguridad y servicio. Tus datos y tu plata, siempre protegidos.</p></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="cifra" data-contar="3" data-sufijo=" productos">0</div><p>en una sola cuenta</p></div>
+        <div class="stat"><div class="cifra" data-contar="1.5" data-dec="1" data-sufijo="%">0</div><p>interés mensual en ahorros</p></div>
+        <div class="stat"><div class="cifra" data-contar="20" data-sufijo="%">0</div><p>de sobregiro en corriente</p></div>
+        <div class="stat"><div class="cifra" data-contar="24" data-sufijo="/7">0</div><p>tu banco siempre abierto</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="seccion-landing" id="ayuda">
+    <div class="contenedor reveal">
+      <h2>Preguntas frecuentes</h2>
+      <p class="subtitulo">Lo que más nos preguntan.</p>
+      <div class="faq">
+        <div class="faq-item">
+          <button class="faq-pregunta">¿Cómo abro mi cuenta?</button>
+          <div class="faq-resp"><p>Presiona "Registrarse", llena tus datos y listo: recibes de inmediato tu cuenta de ahorros, tu cuenta corriente y tu tarjeta de crédito.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-pregunta">¿Qué pasa si me equivoco de contraseña?</button>
+          <div class="faq-resp"><p>Tienes tres intentos. Al tercer intento fallido la cuenta se bloquea por seguridad y un administrador debe desbloquearla.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-pregunta">¿Cómo funciona el sobregiro?</button>
+          <div class="faq-resp"><p>En la cuenta corriente puedes retirar hasta un 20% adicional sobre tu saldo. Con $1.000.000 puedes retirar hasta $1.200.000.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-pregunta">¿Cuándo se paga el interés de ahorros?</button>
+          <div class="faq-resp"><p>El 1.5% mensual se calcula sobre tu saldo y se abona en el momento en que realizas un retiro.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="contenedor reveal">
+      <h2>Empieza hoy con <span class="grad-text">Mi Plata</span></h2>
+      <a href="view/auth.html?modo=registro" class="btn">Crear mi cuenta gratis</a>
+    </div>
+  </section>
+
+  <footer class="footer" id="contacto">
+    <div class="contenedor">
+      <div class="footer-grid">
+        <div>
+          <h4>Mi Plata S.A.</h4>
+          <p>Banco digital · Medellín, Colombia</p>
+          <p>NIT 900.000.000-0</p>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li>📞 (604) 000 00 00</li>
+            <li>✉️ contacto@miplata.com</li>
+            <li>📍 Calle 10 # 40-20, Medellín</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Síguenos</h4>
+          <div class="redes">
+            <a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a>
+            <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://x.com" target="_blank" rel="noopener">X</a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+      <p class="copy">© <span data-year></span> Mi Plata. Proyecto académico — todos los derechos reservados. Fotografías de <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a>.</p>
+    </div>
+  </footer>
+
+  <script src="js/models/Transaccion.js"></script>
+  <script src="js/models/cuenta.js"></script>
+  <script src="js/models/CuentaAhorros.js"></script>
+  <script src="js/models/CuentaCorriente.js"></script>
+  <script src="js/models/TarjetaCredito.js"></script>
+  <script src="js/models/Usuario.js"></script>
+  <script src="js/data/ApiClient.js"></script>
+  <script src="controllers/AuthController.js"></script>
+  <script src="controllers/BankController.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>

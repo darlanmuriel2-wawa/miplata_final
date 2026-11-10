@@ -1,0 +1,10 @@
+Coloca aquí las fotos de Unsplash con estos nombres:
+
+  ahorrar.jpg          (tarjeta "Ahorrar")
+  comprar-cuotas.jpg   (tarjeta "Comprar a cuotas")
+  mover-dinero.jpg     (tarjeta "Mover mi dinero")
+  ver-saldo.jpg        (tarjeta "Ver mi saldo")
+
+Recomendado: formato vertical o cuadrado, de unos 800x1000 px y menos de 300 KB cada una
+(en Unsplash usa el botón de descarga con tamaño "Pequeña" o "Mediana").
+Si cambias un nombre, cambia también el src en index.html.

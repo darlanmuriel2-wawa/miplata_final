@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Plata | Panel del cajero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script>try{var t=localStorage.getItem('miplata_tema')||'dark';document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="contenedor">
+      <a href="../index.html" class="logo"><span class="logo-moneda">$</span> Mi Plata</a>
+      <div class="util-acciones"><span id="saludo"></span><button class="util-btn" data-tema-toggle aria-label="Cambiar tema">☀️</button></div>
+    </div>
+  </header>
+
+  <div class="contenedor panel-layout">
+    <aside class="menu-lateral">
+      <button data-seccion="saldo" class="activo">💰 Consultar saldo</button>
+      <button data-seccion="consignar">⬇️ Consignar dinero</button>
+      <button data-seccion="retirar">⬆️ Retirar dinero</button>
+      <button data-seccion="movimientos">📋 Ver movimientos</button>
+      <button data-seccion="transferir">🔁 Transferir</button>
+      <button data-seccion="tarjeta">💳 Tarjeta de crédito</button>
+      <button data-seccion="perfil">👤 Perfil</button>
+      <button class="salir" id="btnCerrarSesion">🚪 Cerrar sesión</button>
+    </aside>
+
+    <main class="panel-main">
+      <!-- Consultar saldo -->
+      <section class="seccion activa" id="sec-saldo">
+        <h2>Consultar saldo</h2>
+        <div class="form-card ancho" style="margin-bottom:1.2rem">
+          <div class="patrimonio"><span class="ayuda">Patrimonio neto (ahorros + corriente − deuda de tarjeta)</span><b id="patrimonio"></b></div>
+        </div>
+        <div class="grid-3" id="tarjetasSaldo" style="margin-bottom:1.2rem"></div>
+        <div class="form-card ancho">
+          <div class="barra-seccion">
+            <h3>Entradas y salidas · últimos 7 días</h3>
+            <div class="leyenda"><span><i style="background:var(--ok)"></i>Entradas</span><span><i style="background:var(--danger)"></i>Salidas</span></div>
+          </div>
+          <div class="grafica" id="grafica" role="img" aria-label="Gráfica de entradas y salidas de los últimos 7 días"></div>
+        </div>
+      </section>
+
+      <!-- Consignar -->
+      <section class="seccion" id="sec-consignar">
+        <h2>Consignar dinero</h2>
+        <form class="form-card" id="formConsignar" novalidate>
+          <div class="campo">
+            <label for="consCuenta">Cuenta destino</label>
+            <select id="consCuenta" name="cuenta">
+              <option value="ahorros">Cuenta de Ahorros</option>
+              <option value="corriente">Cuenta Corriente</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="consMonto">Monto a consignar</label>
+            <input id="consMonto" name="monto" type="number" min="0" step="any" placeholder="100000">
+          </div>
+          <button class="btn" type="submit">Consignar</button>
+        </form>
+      </section>
+
+      <!-- Retirar -->
+      <section class="seccion" id="sec-retirar">
+        <h2>Retirar dinero</h2>
+        <form class="form-card" id="formRetirar" novalidate>
+          <div class="campo">
+            <label for="retCuenta">Cuenta de origen</label>
+            <select id="retCuenta" name="cuenta">
+              <option value="ahorros">Cuenta de Ahorros</option>
+              <option value="corriente">Cuenta Corriente</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="retMonto">Monto a retirar</label>
+            <input id="retMonto" name="monto" type="number" min="0" step="any" placeholder="50000">
+          </div>
+          <div class="alerta info" id="previewRetiro"></div>
+          <button class="btn" type="submit">Retirar</button>
+        </form>
+      </section>
+
+      <!-- Movimientos / Extracto -->
+      <section class="seccion" id="sec-movimientos">
+        <div class="barra-seccion">
+          <h2>Extracto de movimientos</h2>
+          <div class="acciones">
+            <button class="btn btn-borde btn-sm" type="button" id="btnCsv">⬇ Descargar CSV</button>
+            <button class="btn btn-sm" type="button" id="btnImprimirExtracto">🖨 Imprimir / PDF</button>
+          </div>
+        </div>
+        <form class="filtros" id="filtrosMov" novalidate>
+          <div class="campo">
+            <label for="filtroMov">Producto</label>
+            <select id="filtroMov" name="producto">
+              <option value="todos">Todos los productos</option>
+              <option value="ahorros">Cuenta de Ahorros</option>
+              <option value="corriente">Cuenta Corriente</option>
+              <option value="tarjeta">Tarjeta de Crédito</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="filtroSentido">Tipo</label>
+            <select id="filtroSentido" name="sentido">
+              <option value="todos">Entradas y salidas</option>
+              <option value="entrada">Solo entradas</option>
+              <option value="salida">Solo salidas</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="filtroDesde">Desde</label>
+            <input id="filtroDesde" name="desde" type="date">
+          </div>
+          <div class="campo">
+            <label for="filtroHasta">Hasta</label>
+            <input id="filtroHasta" name="hasta" type="date">
+          </div>
+          <div class="presets" role="group" aria-label="Rangos rápidos">
+            <button type="button" class="chip" data-rango="hoy">Hoy</button>
+            <button type="button" class="chip" data-rango="7">7 días</button>
+            <button type="button" class="chip" data-rango="30">30 días</button>
+            <button type="button" class="chip" data-rango="mes">Este mes</button>
+            <button type="button" class="chip" data-rango="todo">Todo</button>
+          </div>
+        </form>
+        <div class="resumen-mov" id="resumenMov" aria-live="polite"></div>
+        <div class="tabla-wrap">
+          <table>
+            <thead><tr><th>Fecha y hora</th><th>Producto</th><th>Tipo</th><th>Detalle</th><th>Valor</th><th><span class="sr-only">Comprobante</span></th></tr></thead>
+            <tbody id="tablaMov"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Transferir -->
+      <section class="seccion" id="sec-transferir">
+        <h2>Transferir</h2>
+        <form class="form-card" id="formTransferir" novalidate>
+          <div class="campo">
+            <label for="trOrigen">Desde</label>
+            <select id="trOrigen" name="origen">
+              <option value="ahorros">Cuenta de Ahorros</option>
+              <option value="corriente">Cuenta Corriente</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label>Hacia</label>
+            <div class="radios">
+              <label><input type="radio" name="modo" value="propio" checked> Otro de mis productos</label>
+              <label><input type="radio" name="modo" value="otro"> Otro usuario</label>
+            </div>
+          </div>
+          <div class="campo" id="campoUsuarioDestino" hidden>
+            <label for="trUsuario">Usuario destino</label>
+            <input id="trUsuario" name="usuarioDestino" placeholder="nombre de usuario">
+          </div>
+          <div class="campo">
+            <label for="trDestino">Producto destino</label>
+            <select id="trDestino" name="destino"></select>
+          </div>
+          <div class="campo">
+            <label for="trMonto">Monto a transferir</label>
+            <input id="trMonto" name="monto" type="number" min="0" step="any">
+          </div>
+          <button class="btn" type="submit">Transferir</button>
+        </form>
+      </section>
+
+      <!-- Tarjeta -->
+      <section class="seccion" id="sec-tarjeta">
+        <h2>Tarjeta de crédito</h2>
+        <div class="grid-3" id="resumenTarjeta" style="margin-bottom:1.2rem"></div>
+        <form class="form-card" id="formCompra" novalidate>
+          <h3 style="margin-bottom:.8rem">Registrar compra</h3>
+          <div class="campo">
+            <label for="compDesc">Descripción</label>
+            <input id="compDesc" name="descripcion" placeholder="Computador, mercado...">
+          </div>
+          <div class="fila">
+            <div class="campo">
+              <label for="compValor">Valor de la compra</label>
+              <input id="compValor" name="valor" type="number" min="0" step="any">
+            </div>
+            <div class="campo">
+              <label for="compCuotas">Número de cuotas (1-36)</label>
+              <input id="compCuotas" name="cuotas" type="number" min="1" max="36" step="1" value="1">
+            </div>
+          </div>
+          <div class="alerta info" id="previewCompra">Ingresa valor y cuotas para ver tu pago mensual.</div>
+          <button class="btn" type="submit">Comprar</button>
+        </form>
+        <div class="tabla-wrap" style="margin-bottom:1.2rem">
+          <table>
+            <thead><tr><th>Fecha</th><th>Compra</th><th>Capital</th><th>Cuotas</th><th>Tasa mensual</th><th>Pago mensual</th><th>Saldo pendiente</th></tr></thead>
+            <tbody id="tablaCompras"></tbody>
+          </table>
+        </div>
+        <form class="form-card" id="formPago" novalidate>
+          <h3 style="margin-bottom:.8rem">Pagar tarjeta</h3>
+          <div class="campo">
+            <label for="pagoCuenta">Pagar desde</label>
+            <select id="pagoCuenta" name="cuenta">
+              <option value="ahorros">Cuenta de Ahorros</option>
+              <option value="corriente">Cuenta Corriente</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="pagoMonto">Monto a pagar</label>
+            <input id="pagoMonto" name="monto" type="number" min="0" step="any">
+          </div>
+          <button class="btn" type="submit">Pagar</button>
+        </form>
+      </section>
+
+      <!-- Perfil -->
+      <section class="seccion" id="sec-perfil">
+        <h2>Perfil y seguridad</h2>
+        <form class="form-card" id="formPerfil" novalidate>
+          <h3 style="margin-bottom:.8rem">Mis datos</h3>
+          <div class="campo">
+            <label for="perIdent">Número de identificación</label>
+            <input id="perIdent" name="identificacion">
+            <small class="error" data-error="identificacion"></small>
+          </div>
+          <div class="campo">
+            <label for="perNombre">Nombre completo</label>
+            <input id="perNombre" name="nombre">
+            <small class="error" data-error="nombre"></small>
+          </div>
+          <div class="campo">
+            <label for="perCelular">Celular</label>
+            <input id="perCelular" name="celular" maxlength="10">
+            <small class="error" data-error="celular"></small>
+          </div>
+          <div class="campo">
+            <label for="perUsuario">Nombre de usuario</label>
+            <input id="perUsuario" name="username">
+            <small class="error" data-error="username"></small>
+          </div>
+          <button class="btn" type="submit">Guardar cambios</button>
+        </form>
+
+        <form class="form-card" id="formClave" novalidate>
+          <h3 style="margin-bottom:.8rem">Cambiar contraseña</h3>
+          <div class="campo">
+            <label for="claveUsuario">Usuario</label>
+            <input id="claveUsuario" name="username" autocomplete="username">
+            <small class="error" data-error="username"></small>
+          </div>
+          <div class="campo">
+            <label for="claveActual">Contraseña actual</label>
+            <input id="claveActual" name="actual" type="password" autocomplete="current-password">
+            <small class="error" data-error="actual"></small>
+          </div>
+          <div class="campo">
+            <label for="claveNueva">Nueva contraseña</label>
+            <input id="claveNueva" name="nueva" type="password" autocomplete="new-password">
+            <small class="error" data-error="nueva"></small>
+          </div>
+          <div class="campo">
+            <label for="claveConfirmar">Confirmar nueva contraseña</label>
+            <input id="claveConfirmar" name="confirmar" type="password" autocomplete="new-password">
+            <small class="error" data-error="confirmar"></small>
+          </div>
+          <button class="btn" type="submit">Guardar contraseña</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <!-- Comprobante de transferencia (elemento nativo <dialog>: maneja Esc y foco solo) -->
+  <dialog id="dlgComprobante" class="dialogo" aria-label="Comprobante de transferencia">
+    <div class="comprobante" id="contenidoComprobante"></div>
+    <div class="acciones">
+      <button class="btn btn-borde" type="button" id="btnCerrarComp">Cerrar</button>
+      <button class="btn" type="button" id="btnImprimirComp">🖨 Imprimir / PDF</button>
+    </div>
+  </dialog>
+
+  <script src="../js/models/Transaccion.js"></script>
+  <script src="../js/models/cuenta.js"></script>
+  <script src="../js/models/CuentaAhorros.js"></script>
+  <script src="../js/models/CuentaCorriente.js"></script>
+  <script src="../js/models/TarjetaCredito.js"></script>
+  <script src="../js/models/Usuario.js"></script>
+  <script src="../js/data/ApiClient.js"></script>
+  <script src="../controllers/AuthController.js"></script>
+  <script src="../controllers/BankController.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/documentos.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/dashboardApp.js"></script>
+</body>
+</html>

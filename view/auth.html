@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Plata | Acceso</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script>try{var t=localStorage.getItem('miplata_tema')||'dark';document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="contenedor">
+      <a href="../index.html" class="logo"><span class="logo-moneda">$</span> Mi Plata</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="../index.html">Inicio</a></li>
+        <li><button class="util-btn" data-tema-toggle aria-label="Cambiar tema">☀️</button></li>
+        <li><a href="auth.html?modo=login">Iniciar Sesión</a></li>
+        <li><a href="auth.html?modo=registro" class="btn btn-dorado btn-sm">Registrarse</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="auth-fondo">
+    <div class="auth-card">
+      <h1 id="tituloAuth">Inicia sesión</h1>
+      <div class="tabs">
+        <button type="button" data-modo="login">Iniciar sesión</button>
+        <button type="button" data-modo="registro">Registrarme</button>
+      </div>
+
+      <!-- ===== Inicio de sesión ===== -->
+      <form id="formLogin" novalidate>
+        <div class="alerta error" id="mensajeLogin" hidden></div>
+        <div class="campo">
+          <label for="loginUsuario">Usuario</label>
+          <input id="loginUsuario" name="usuario" autocomplete="username" placeholder="tu_usuario">
+        </div>
+        <div class="campo">
+          <label for="loginClave">Contraseña</label>
+          <input id="loginClave" name="clave" type="password" autocomplete="current-password" placeholder="••••••••">
+        </div>
+        <div class="contador" id="contadorIntentos"></div>
+        <button class="btn btn-block" id="btnLogin" type="submit">Entrar</button>
+      </form>
+
+      <!-- ===== Registro ===== -->
+      <form id="formRegistro" novalidate hidden>
+        <div class="campo">
+          <label for="regIdent">Número de identificación (cédula o pasaporte)</label>
+          <input id="regIdent" name="identificacion" placeholder="1020304050">
+          <small class="error" data-error="identificacion"></small>
+        </div>
+        <div class="campo">
+          <label for="regNombre">Nombre completo</label>
+          <input id="regNombre" name="nombre" autocomplete="name" placeholder="Ana María Pérez">
+          <small class="error" data-error="nombre"></small>
+        </div>
+        <div class="campo">
+          <label for="regCelular">Número de celular</label>
+          <input id="regCelular" name="celular" inputmode="numeric" maxlength="10" placeholder="3001234567">
+          <small class="error" data-error="celular"></small>
+        </div>
+        <div class="campo">
+          <label for="regUsuario">Nombre de usuario</label>
+          <input id="regUsuario" name="username" autocomplete="username" placeholder="ana.perez">
+          <small class="error" data-error="username"></small>
+        </div>
+        <div class="campo">
+          <label for="regClave">Contraseña</label>
+          <input id="regClave" name="password" type="password" autocomplete="new-password">
+          <small class="ayuda">Mínimo 8 caracteres con mayúscula, minúscula y número.</small>
+          <small class="error" data-error="password"></small>
+        </div>
+        <div class="campo">
+          <label for="regConfirmar">Confirmar contraseña</label>
+          <input id="regConfirmar" name="confirmar" type="password" autocomplete="new-password">
+          <small class="error" data-error="confirmar"></small>
+        </div>
+        <button class="btn btn-block" type="submit">Crear mi cuenta</button>
+      </form>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <p class="copy" style="border:0;margin:0;padding:0">© <span data-year></span> Mi Plata · Banco digital · contacto@miplata.com</p>
+    </div>
+  </footer>
+
+  <script src="../js/models/Transaccion.js"></script>
+  <script src="../js/models/cuenta.js"></script>
+  <script src="../js/models/CuentaAhorros.js"></script>
+  <script src="../js/models/CuentaCorriente.js"></script>
+  <script src="../js/models/TarjetaCredito.js"></script>
+  <script src="../js/models/Usuario.js"></script>
+  <script src="../js/data/ApiClient.js"></script>
+  <script src="../controllers/AuthController.js"></script>
+  <script src="../controllers/BankController.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/ui.js"></script>
+</body>
+</html>

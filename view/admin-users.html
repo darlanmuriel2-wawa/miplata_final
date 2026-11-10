@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Plata | Administración de usuarios</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script>try{var t=localStorage.getItem('miplata_tema')||'dark';document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="contenedor">
+      <a href="../index.html" class="logo"><span class="logo-moneda">$</span> Mi Plata</a>
+      <div style="display:flex;gap:.8rem;align-items:center">
+        <span id="saludoAdmin"></span>
+        <button class="util-btn" data-tema-toggle aria-label="Cambiar tema">☀️</button>
+        <button class="btn btn-borde btn-sm" id="btnSalirAdmin">Cerrar sesión</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="contenedor" style="padding:1.5rem 0 3rem">
+    <div class="pestanas" role="tablist" aria-label="Secciones de administración">
+      <button class="pestana activa" role="tab" id="tabUsuarios" aria-selected="true" aria-controls="panelUsuarios" data-panel="panelUsuarios">👥 Usuarios</button>
+      <button class="pestana" role="tab" id="tabMetricas" aria-selected="false" aria-controls="panelMetricas" data-panel="panelMetricas">📊 Métricas</button>
+    </div>
+
+    <section id="panelUsuarios" role="tabpanel" aria-labelledby="tabUsuarios">
+    <div class="barra-seccion">
+      <h2>Administración de usuarios</h2>
+      <button class="btn" id="btnNuevo">+ Agregar usuario</button>
+    </div>
+
+    <!-- Formulario crear / editar -->
+    <form class="form-card ancho" id="formUsuario" novalidate hidden>
+      <h3 id="tituloForm" style="margin-bottom:1rem">Agregar usuario</h3>
+      <input type="hidden" id="usuarioId">
+      <div class="fila">
+        <div class="campo">
+          <label for="uIdent">Identificación</label>
+          <input id="uIdent" name="identificacion">
+          <small class="error" data-error="identificacion"></small>
+        </div>
+        <div class="campo">
+          <label for="uNombre">Nombre completo</label>
+          <input id="uNombre" name="nombre">
+          <small class="error" data-error="nombre"></small>
+        </div>
+      </div>
+      <div class="fila">
+        <div class="campo">
+          <label for="uCelular">Celular</label>
+          <input id="uCelular" name="celular" maxlength="10">
+          <small class="error" data-error="celular"></small>
+        </div>
+        <div class="campo">
+          <label for="uUsername">Nombre de usuario</label>
+          <input id="uUsername" name="username">
+          <small class="error" data-error="username"></small>
+        </div>
+      </div>
+      <div class="fila">
+        <div class="campo">
+          <label for="uPassword" id="labelPassword">Contraseña</label>
+          <input id="uPassword" name="password" type="password" autocomplete="new-password">
+          <small class="error" data-error="password"></small>
+        </div>
+        <div class="fila">
+          <div class="campo">
+            <label for="uRol">Rol</label>
+            <select id="uRol" name="rol"><option value="cliente">Cliente</option><option value="admin">Administrador</option></select>
+          </div>
+          <div class="campo">
+            <label for="uEstado">Estado</label>
+            <select id="uEstado" name="estado"><option value="activo">Activo</option><option value="bloqueado">Bloqueado</option></select>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:.7rem">
+        <button class="btn" type="submit">Guardar</button>
+        <button class="btn btn-gris" type="button" id="btnCancelar">Cancelar</button>
+      </div>
+    </form>
+
+    <div class="tabla-wrap">
+      <table>
+        <thead><tr><th>Identificación</th><th>Nombre</th><th>Celular</th><th>Usuario</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr></thead>
+        <tbody id="tablaUsuarios"></tbody>
+      </table>
+    </div>
+    </section>
+
+    <!-- Métricas -->
+    <section id="panelMetricas" role="tabpanel" aria-labelledby="tabMetricas" hidden>
+      <div class="barra-seccion">
+        <h2>Métricas del banco</h2>
+        <div class="acciones">
+          <small id="metGenerado" class="muted-txt"></small>
+          <button class="btn btn-borde btn-sm" type="button" id="btnActualizarMet">↻ Actualizar</button>
+        </div>
+      </div>
+      <div class="kpis" id="kpis"></div>
+      <div class="grid-graficas">
+        <figure class="tarjeta-graf ancha"><figcaption>Consignaciones vs. retiros · últimos 14 días</figcaption><div class="grafica" id="grFlujo"></div></figure>
+        <figure class="tarjeta-graf"><figcaption>Usuarios nuevos por día</figcaption><div class="grafica" id="grRegistros"></div></figure>
+        <figure class="tarjeta-graf"><figcaption>Dinero en cuentas</figcaption><div class="grafica" id="grDinero"></div></figure>
+        <figure class="tarjeta-graf"><figcaption>Movimientos por tipo</figcaption><div class="grafica" id="grTipos"></div></figure>
+        <figure class="tarjeta-graf"><figcaption>Top 5 clientes por saldo en cuentas</figcaption><div class="grafica" id="grTop"></div></figure>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/models/Transaccion.js"></script>
+  <script src="../js/models/cuenta.js"></script>
+  <script src="../js/models/CuentaAhorros.js"></script>
+  <script src="../js/models/CuentaCorriente.js"></script>
+  <script src="../js/models/TarjetaCredito.js"></script>
+  <script src="../js/models/Usuario.js"></script>
+  <script src="../js/data/ApiClient.js"></script>
+  <script src="../controllers/AuthController.js"></script>
+  <script src="../controllers/BankController.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/charts.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/adminApp.js"></script>
+  <script src="../js/adminMetricas.js"></script>
+</body>
+</html>
